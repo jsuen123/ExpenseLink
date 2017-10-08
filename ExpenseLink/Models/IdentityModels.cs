@@ -23,6 +23,8 @@ namespace ExpenseLink.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

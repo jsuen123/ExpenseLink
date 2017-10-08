@@ -227,10 +227,29 @@
     <Compile Include="Migrations\201710080944540_AddNamePropertyToRegistryViewModel2.Designer.cs">
       <DependentUpon>201710080944540_AddNamePropertyToRegistryViewModel2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710080956202_AddRequestModel.cs" />
+    <Compile Include="Migrations\201710080956202_AddRequestModel.Designer.cs">
+      <DependentUpon>201710080956202_AddRequestModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710080959261_AddRequestModel1.cs" />
+    <Compile Include="Migrations\201710080959261_AddRequestModel1.Designer.cs">
+      <DependentUpon>201710080959261_AddRequestModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710081011181_AddRequestReceiptAndStatus.cs" />
+    <Compile Include="Migrations\201710081011181_AddRequestReceiptAndStatus.Designer.cs">
+      <DependentUpon>201710081011181_AddRequestReceiptAndStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710081012510_PopulateStatus.cs" />
+    <Compile Include="Migrations\201710081012510_PopulateStatus.Designer.cs">
+      <DependentUpon>201710081012510_PopulateStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Receipt.cs" />
+    <Compile Include="Models\Request.cs" />
+    <Compile Include="Models\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -318,6 +337,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710080944540_AddNamePropertyToRegistryViewModel2.resx">
       <DependentUpon>201710080944540_AddNamePropertyToRegistryViewModel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710080956202_AddRequestModel.resx">
+      <DependentUpon>201710080956202_AddRequestModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710080959261_AddRequestModel1.resx">
+      <DependentUpon>201710080959261_AddRequestModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710081011181_AddRequestReceiptAndStatus.resx">
+      <DependentUpon>201710081011181_AddRequestReceiptAndStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710081012510_PopulateStatus.resx">
+      <DependentUpon>201710081012510_PopulateStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
