@@ -7,7 +7,7 @@
 <h2>Requests</h2>
 
 <p>
-    @*@Html.ActionLink("New Customer", "New", "", new { @class = "btn btn-primary" })*@
+    @Html.ActionLink("New Expense", "New", "", new { @class = "btn btn-primary" })
 </p>
 
 @if (!@Model.Any())
@@ -27,10 +27,10 @@ else
         {
             <tr>
                 <td>
-                    @request.ApplicationUser.Name
+                    @Html.ActionLink(request.ApplicationUser.Name, "Detail", "Request", new { id = request.Id }, null)
                 </td>
                 <td>
-                    @request.CreatedDate
+                    @request.CreatedDate.ToString("d/MMM/yyyy")
                 </td>
                 <td>
                     @request.Status.Name

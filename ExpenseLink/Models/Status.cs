@@ -8,5 +8,5 @@ namespace ExpenseLink.Models
         public byte Id { get; set; }
         [Required]
         public string Name { get; set; }
-    }
+    } 
 }

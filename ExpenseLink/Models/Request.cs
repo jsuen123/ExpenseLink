@@ -14,6 +14,7 @@ namespace ExpenseLink.Models
         [Required]
         public IList<Receipt> Receipts { get; set; }
         public Status Status { get; set; }
+        public byte StatusId { get; set; }
         [Required]
         public virtual ApplicationUser ApplicationUser { get; set; }
         public string Reason { get; set; }

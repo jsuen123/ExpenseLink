@@ -1,0 +1,84 @@
+﻿@model ExpenseLink.Models.Request
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Expense</h2>
+<button id="btnAddField">Add Field</button>
+@using (Html.BeginForm("Create", "Request"))
+{
+    
+
+    @*<div id="fields"></div>*@
+
+    <table id="table" class="table	table-bordered	table-hover">
+        <tr>
+            <th>Receipt Date</th>
+            <th>Item Description</th>
+            <th>Amount</th>
+            <th>Reimbursement Amount</th>
+        </tr>        
+        <tr>
+            <td>
+                @Html.EditorFor(m=>m.Receipts)
+                <input type="text" name="receipt.ReceiptDate"/><br/>
+            </td>
+            <td>
+                <input type="text" name="receipt.ItemDescription" /><br />
+            </td>
+            <td>
+                <input type="text" name="receipt.Amount" /><br />
+            </td>
+            <td>
+                <input type="text" name="receipt.ReimbursementAmount" /><br />
+            </td>
+        </tr>
+    </table>
+
+    @Html.AntiForgeryToken()
+    <button>Submit</button>
+}
+
+<div style="color:blue"><b>Data:</b> @ViewBag.Data</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        var $table = $('#table');
+        $('#btnAddField').click(function(e) {
+            e.preventDefault();
+            $('<tr><td><input type="text" name="receipt.ReceiptDate" /></td>' +
+                '<td><input type="text" name="receipt.ItemDescription" /></td>' +
+                '<td><input type="text" name="receipt.Amount" /></td>' +
+                '<td><input type="text" name="receipt.ReimbursementAmount" /></td></tr>').appendTo($table);
+        });
+    });
+
+</script>
+
+@*@using (Html.BeginForm("Save", "Request"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name)
+        @Html.TextBoxFor(m=>m.Customer.Name, new {@class="form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthday)
+        @Html.TextBoxFor(m => m.Customer.Birthday,"{0: d MMM yyyy}", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.MembershipType)
+        @Html.DropDownListFor(m => m.Customer.MembershipType,
+            new SelectList(Model.MembershipTypes,
+                "Id", "Name"),
+            "Select Membership Type", new {@class="form-control"})
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m=> m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
+        </label>
+    </div>
+    @Html.HiddenFor(m=>m.Customer.Id)
+    <button type="submit" class="btn btn-primary">Save</button>
+}*@
