@@ -10,6 +10,7 @@ namespace ExpenseLink.ViewModels
         public DateTime CreatedDate { get; set; }    
         public IEnumerable<Receipt> Receipts { get; set; }
         public byte StatusId { get; set; }
+        public string StatusName { get; set; }
         public string RequesterName { get; set; }
         public string Reason { get; set; }
     }

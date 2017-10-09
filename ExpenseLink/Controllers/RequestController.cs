@@ -48,7 +48,8 @@ namespace ExpenseLink.Controllers
                 viewModel.Id = request.Id;
                 viewModel.CreatedDate = request.CreatedDate;
                 viewModel.Receipts = request.Receipts;
-                viewModel.StatusId = request.StatusId;                
+                viewModel.StatusId = request.StatusId;
+                viewModel.StatusName = request.Status.Name;
                 viewModel.RequesterName = request.ApplicationUser.Name;
                 viewModel.Reason = request.Reason;
             }
@@ -62,6 +63,7 @@ namespace ExpenseLink.Controllers
             {
                 var requestInDb = _context.Requests.Include(r => r.Status).Include(r => r.Receipts).Single(r => r.Id == id);
                 requestInDb.StatusId = StatusName.WaitingForReimbursement;
+                requestInDb.Reason = string.Empty;
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Request");
             }
@@ -79,6 +81,7 @@ namespace ExpenseLink.Controllers
             {
                 var requestInDb = _context.Requests.Include(r => r.Status).Include(r => r.Receipts).Single(r => r.Id == id);
                 requestInDb.StatusId = StatusName.Reimbursed;
+                requestInDb.Reason = string.Empty;
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Request");
             }
@@ -87,6 +90,25 @@ namespace ExpenseLink.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public ActionResult Reject(int id, string reason)
+        {
+            try
+            {
+                var requestInDb = _context.Requests.Include(r => r.Status).Include(r => r.Receipts).Single(r => r.Id == id);
+                requestInDb.StatusId = StatusName.Rejected;
+                requestInDb.Reason = reason;
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Request");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
         }
     }
 }

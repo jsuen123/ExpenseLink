@@ -209,7 +209,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
-    <Compile Include="Controllers\Requests1Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,6 +263,10 @@
     <Compile Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.cs" />
     <Compile Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.Designer.cs">
       <DependentUpon>201710092330089_RemoveRequiredFromApplicationUserInRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710092343537_AddStatusNameToManagerRequestDetailViewModel.cs" />
+    <Compile Include="Migrations\201710092343537_AddStatusNameToManagerRequestDetailViewModel.Designer.cs">
+      <DependentUpon>201710092343537_AddStatusNameToManagerRequestDetailViewModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1169,6 +1172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.resx">
       <DependentUpon>201710092330089_RemoveRequiredFromApplicationUserInRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710092343537_AddStatusNameToManagerRequestDetailViewModel.resx">
+      <DependentUpon>201710092343537_AddStatusNameToManagerRequestDetailViewModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
