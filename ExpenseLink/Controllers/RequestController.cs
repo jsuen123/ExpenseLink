@@ -43,12 +43,12 @@ namespace ExpenseLink.Controllers
                                            .Include(r => r.Receipts)
                                            .FirstOrDefault(r => r.Id == id);
             ManagerRequestDetailViewModel viewModel = new ManagerRequestDetailViewModel();
-            if (request!=null)
-            {   
+            if (request != null)
+            {
                 viewModel.Id = request.Id;
                 viewModel.CreatedDate = request.CreatedDate;
                 viewModel.Receipts = request.Receipts;
-                viewModel.StatusId = request.StatusId;
+                viewModel.StatusId = request.StatusId;                
                 viewModel.RequesterName = request.ApplicationUser.Name;
                 viewModel.Reason = request.Reason;
             }
@@ -61,9 +61,9 @@ namespace ExpenseLink.Controllers
             try
             {
                 var requestInDb = _context.Requests.Include(r => r.Status).Include(r => r.Receipts).Single(r => r.Id == id);
-                requestInDb.StatusId = StatusName.Approved;
-                //TODO: Error here
+                requestInDb.StatusId = StatusName.WaitingForReimbursement;
                 _context.SaveChanges();
+                return RedirectToAction("Index", "Request");
             }
             catch (Exception e)
             {
@@ -71,7 +71,22 @@ namespace ExpenseLink.Controllers
                 throw;
             }
 
-            return RedirectToAction("Index", "Request");
+        }
+
+        public ActionResult Reimbursed(int id)
+        {
+            try
+            {
+                var requestInDb = _context.Requests.Include(r => r.Status).Include(r => r.Receipts).Single(r => r.Id == id);
+                requestInDb.StatusId = StatusName.Reimbursed;
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Request");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

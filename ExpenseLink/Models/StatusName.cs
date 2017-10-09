@@ -3,9 +3,8 @@
     public class StatusName
     {
         public const int Submitted = 1;
-        public const int Approved = 2;
-        public const int Rejected = 3;
-        public const int WaitingForReimbursement = 4;
-        public const int Reimbursed = 5;
+        public const int Rejected = 2;
+        public const int WaitingForReimbursement = 3;
+        public const int Reimbursed = 4;
     }
 }

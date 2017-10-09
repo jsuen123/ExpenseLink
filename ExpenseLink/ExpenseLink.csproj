@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201710092306233_AddStatusIdToRequest.Designer.cs">
       <DependentUpon>201710092306233_AddStatusIdToRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.cs" />
+    <Compile Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.Designer.cs">
+      <DependentUpon>201710092330089_RemoveRequiredFromApplicationUserInRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1162,6 +1166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710092306233_AddStatusIdToRequest.resx">
       <DependentUpon>201710092306233_AddStatusIdToRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710092330089_RemoveRequiredFromApplicationUserInRequest.resx">
+      <DependentUpon>201710092330089_RemoveRequiredFromApplicationUserInRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
