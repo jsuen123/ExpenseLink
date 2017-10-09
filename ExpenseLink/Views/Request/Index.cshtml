@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ExpenseLink.Models.Request>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Requests</h2>
+
+<p>
+    @*@Html.ActionLink("New Customer", "New", "", new { @class = "btn btn-primary" })*@
+</p>
+
+@if (!@Model.Any())
+{
+    <text>We don't have any customers yet.</text>
+}
+else
+{
+    <table class="table	table-bordered	table-hover">
+        <tr>
+            <th>Requester</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+
+        @foreach (var request in @Model)
+        {
+            <tr>
+                <td>
+                    @request.ApplicationUser.Name
+                    @*@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)*@
+                </td>
+                <td>
+                    @request.CreatedDate
+                </td>
+                <td>
+                    @request.Status.Name
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+}

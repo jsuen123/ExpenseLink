@@ -10,21 +10,33 @@ namespace ExpenseLink.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required]
+        public string Name { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim("Name", this.Name));
             return userIdentity;
         }
-        [Required]
-        public string Name { get; set; }
+
+        public static string GetName(System.Security.Principal.IPrincipal usr)
+        {
+            var fullNameClaim = ((ClaimsIdentity)usr.Identity).FindFirst("FullName");
+            if (fullNameClaim != null)
+                return fullNameClaim.Value;
+
+            return "";
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Request> Requests { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -35,4 +47,5 @@ namespace ExpenseLink.Models
             return new ApplicationDbContext();
         }
     }
+ 
 }
