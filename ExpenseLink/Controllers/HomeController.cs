@@ -11,10 +11,7 @@ namespace ExpenseLink.Controllers
     {
         public ActionResult Index()
         {
-            var usr = new User();
-            usr.Name = "Jon Skeet";
-            usr.Interests = GetUserInterests();
-            return View(usr);
+            return View();
         }
 
         private IList<UserInterest> GetUserInterests()

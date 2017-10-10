@@ -281,12 +281,17 @@
     <Compile Include="Migrations\201710100038068_AddReceiptNumberToReceipt.Designer.cs">
       <DependentUpon>201710100038068_AddReceiptNumberToReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710100206186_SeedUsers.cs" />
+    <Compile Include="Migrations\201710100206186_SeedUsers.Designer.cs">
+      <DependentUpon>201710100206186_SeedUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Receipt.cs" />
     <Compile Include="Models\Request.cs" />
+    <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\StatusName.cs" />
     <Compile Include="Models\User.cs" />
@@ -1138,6 +1143,8 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Request\New.cshtml" />
     <Content Include="Views\Request\Detail.cshtml" />
+    <Content Include="Views\Request\ManagerDetail.cshtml" />
+    <Content Include="Views\Request\FinanceDetail.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -1199,6 +1206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710100038068_AddReceiptNumberToReceipt.resx">
       <DependentUpon>201710100038068_AddReceiptNumberToReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710100206186_SeedUsers.resx">
+      <DependentUpon>201710100206186_SeedUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

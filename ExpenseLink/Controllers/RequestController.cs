@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ExpenseLink.Controllers
 {
+    [Authorize]
     public class RequestController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,8 +27,26 @@ namespace ExpenseLink.Controllers
 
         public ActionResult Index()
         {
-            var requests = _context.Requests.Include(r => r.Status).ToList();
-            return View(requests);
+            if (User.IsInRole(RoleName.Employee))
+            {
+                var currentUserId = _userManager.FindById(User.Identity.GetUserId()).Id;
+                var requests = _context.Requests.Include(r => r.Status).Where(r => r.ApplicationUser.Id == currentUserId).ToList();
+                return View(requests);
+            }
+
+            if (User.IsInRole(RoleName.Manager))
+            {
+                var requests = _context.Requests.Include(r => r.Status).Where(r=>r.StatusId==StatusName.Submitted).ToList();
+                return View(requests);
+            }
+
+            if (User.IsInRole(RoleName.Finance))
+            {
+                var requests = _context.Requests.Include(r => r.Status).Where(r => r.StatusId == StatusName.WaitingForReimbursement).ToList();
+                return View(requests);
+            }
+
+            return View();
         }
 
         public ActionResult New(NewRequestViewModel newRequestViewModel)
@@ -77,10 +96,16 @@ namespace ExpenseLink.Controllers
                 viewModel.RequesterName = request.ApplicationUser.Name;
                 viewModel.Reason = request.Reason;
             }
-
+            if (User.IsInRole(RoleName.Manager))            
+                return View("ManagerDetail", viewModel);
+           
+            if (User.IsInRole(RoleName.Finance))            
+                return View("FinanceDetail", viewModel);
+            
             return View(viewModel);
         }
 
+        [Authorize(Roles = RoleName.Manager)]
         public ActionResult Approve(int id)
         {
             try
@@ -99,6 +124,7 @@ namespace ExpenseLink.Controllers
 
         }
 
+        [Authorize(Roles = RoleName.Finance)]
         public ActionResult Reimbursed(int id)
         {
             try
@@ -116,6 +142,7 @@ namespace ExpenseLink.Controllers
             }
         }
 
+        [Authorize(Roles = RoleName.Manager)]
         public ActionResult Reject(int id, string reason)
         {
             try
@@ -131,8 +158,6 @@ namespace ExpenseLink.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-
-
         }
     }
 }

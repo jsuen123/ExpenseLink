@@ -1,0 +1,56 @@
+﻿@using ExpenseLink.Models
+@model ExpenseLink.ViewModels.ManagerRequestDetailViewModel
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Request Details</h2>
+<ul>
+    <li>Request Id: @Model.Id</li>
+    <li>Requester: @Model.RequesterName</li>
+    <li>Created Date: @Model.CreatedDate</li>
+    <li>Status: @Model.StatusName</li>
+</ul>
+    @if (!@Model.Receipts.Any())
+    {
+        <text>There is no receipt.</text>
+    }
+    else
+    {
+        <table class="table	table-bordered	table-hover">
+            <tr>
+                <th>Receipt Date</th>
+                <th>Item Description</th>
+                <th>Amount</th>
+                <th>Reimbursement Amount</th>
+            </tr>
+
+            @foreach (var receipt in @Model.Receipts)
+            {
+                <tr>
+                    <td>                       
+                        @receipt.ReceiptDate.ToString("d/MMM/yyyy")
+                    </td>
+                    <td>
+                        @receipt.ItemDescription
+                    </td>
+                    <td>
+                       $@receipt.Amount
+                    </td>
+                    <td>
+                        $@receipt.ReimbursementAmount
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+@using (Html.BeginForm("Reimbursed", "Request", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Id)
+    <input type="submit" value="Reimbursed" class="btn btn-primary btn-lg" />
+}
+
+
+
