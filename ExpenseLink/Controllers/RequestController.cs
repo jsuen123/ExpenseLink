@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using ExpenseLink.Models;
+using ExpenseLink.Services;
 using ExpenseLink.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -14,8 +16,10 @@ namespace ExpenseLink.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public RequestController()
+        private readonly IEmailService _emailService;
+        public RequestController(IEmailService emailService)
         {
+            _emailService = emailService;
             _context = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
         }
@@ -87,6 +91,8 @@ namespace ExpenseLink.Controllers
 
             _context.SaveChanges();
 
+            //Todo: Send email to manager
+            _emailService.Send(new MailMessage());
             return RedirectToAction("Index", "Request");
         }
 
@@ -125,6 +131,8 @@ namespace ExpenseLink.Controllers
                 requestInDb.StatusId = StatusName.WaitingForReimbursement;
                 requestInDb.Reason = string.Empty;
                 _context.SaveChanges();
+                //Todo: Send email to finance user
+                _emailService.Send(new MailMessage());
                 return RedirectToAction("Index", "Request");
             }
             catch (Exception e)
@@ -144,6 +152,8 @@ namespace ExpenseLink.Controllers
                 requestInDb.StatusId = StatusName.Reimbursed;
                 requestInDb.Reason = string.Empty;
                 _context.SaveChanges();
+                //Todo: Send email to user
+                _emailService.Send(new MailMessage());
                 return RedirectToAction("Index", "Request");
             }
             catch (Exception e)
