@@ -17,5 +17,6 @@ namespace ExpenseLink.Models
         public byte StatusId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public string Reason { get; set; }
+        public double Total { get; set; }
     }
 }

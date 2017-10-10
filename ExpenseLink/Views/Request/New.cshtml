@@ -8,9 +8,6 @@
 <button id="btnAddField">Add Field</button>
 @using (Html.BeginForm("Create", "Request"))
 {
-    
-
-    @*<div id="fields"></div>*@
 
     <table id="table" class="table	table-bordered	table-hover">
         <tr>
@@ -24,23 +21,26 @@
             @for (int i = 0; i < Model.Receipts.Count(); i++)
             {
                 <td> 
-                    @Html.TextBoxFor(model => Model.Receipts[i].ReceiptNo)            
+                    @Html.TextBoxFor(m => m.Receipts[i].ReceiptNo)            
+                    @Html.ValidationMessageFor(m => m.Receipts[i].ReceiptNo)
                 </td>
                 <td>
-                    @Html.TextBoxFor(model => Model.Receipts[i].ReceiptDate)  
+                    @Html.TextBoxFor(m => m.Receipts[i].ReceiptDate)  
+                    @Html.ValidationMessageFor(m => m.Receipts[i].ReceiptDate)
                 </td>
                 <td>
-                    @Html.TextBoxFor(model => Model.Receipts[i].ItemDescription)  
+                    @Html.TextBoxFor(m => m.Receipts[i].ItemDescription)  
+                    @Html.ValidationMessageFor(m => m.Receipts[i].ItemDescription)
                 </td>
                 <td>
-                    @Html.TextBoxFor(model => Model.Receipts[i].Amount)  
+                    @Html.TextBoxFor(m => m.Receipts[i].Amount)  
+                    @Html.ValidationMessageFor(m => m.Receipts[i].Amount)
                 </td>
                 <td>
-                    @Html.TextBoxFor(model => Model.Receipts[i].ReimbursementAmount)
+                    @Html.TextBoxFor(m => m.Receipts[i].ReimbursementAmount)
+                    @Html.ValidationMessageFor(m => m.Receipts[i].ReimbursementAmount)
                 </td>
-
-                    <a href="javascript:void(0);" class="remRow">Remove</a>
-               
+                    <a href="javascript:void(0);" class="remRow">Remove</a>            
             }           
 
         </tr>
@@ -68,29 +68,3 @@
     });
 
 </script>
-
-@*@using (Html.BeginForm("Save", "Request"))
-{
-    <div class="form-group">
-        @Html.LabelFor(m => m.Customer.Name)
-        @Html.TextBoxFor(m=>m.Customer.Name, new {@class="form-control"})
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Customer.Birthday)
-        @Html.TextBoxFor(m => m.Customer.Birthday,"{0: d MMM yyyy}", new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Customer.MembershipType)
-        @Html.DropDownListFor(m => m.Customer.MembershipType,
-            new SelectList(Model.MembershipTypes,
-                "Id", "Name"),
-            "Select Membership Type", new {@class="form-control"})
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m=> m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
-        </label>
-    </div>
-    @Html.HiddenFor(m=>m.Customer.Id)
-    <button type="submit" class="btn btn-primary">Save</button>
-}*@

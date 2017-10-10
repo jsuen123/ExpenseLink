@@ -13,5 +13,7 @@ namespace ExpenseLink.ViewModels
         public string StatusName { get; set; }
         public string RequesterName { get; set; }
         public string Reason { get; set; }
+        public double Total { get; set; }
+
     }
 }

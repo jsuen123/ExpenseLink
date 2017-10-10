@@ -19,6 +19,7 @@ else
     <table class="table	table-bordered	table-hover">
         <tr>
             <th>Request Id</th>
+            <th>View</th>
             <th>Requester</th>
             <th>Date</th>
             <th>Status</th>
@@ -29,6 +30,9 @@ else
             <tr>
                 <td>
                     @Html.ActionLink(request.Id.ToString(), "Detail", "Request", new { id = request.Id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("View", "Detail", "Request", new { id = request.Id }, new { @class = "btn btn-info btn-sm" })
                 </td>
                 <td>
                     @request.ApplicationUser.Name

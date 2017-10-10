@@ -58,21 +58,31 @@ namespace ExpenseLink.Controllers
 
         public ActionResult Create(NewRequestViewModel newRequestViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("New", newRequestViewModel);
+            }
+
             ApplicationUser currentUser = _userManager.FindById(User.Identity.GetUserId());
             if (currentUser != null)
             {
+                double total = 0;
+                foreach (var receipt in newRequestViewModel.Receipts)
+                {
+                    _context.Receipts.Add(receipt);
+                    total = total + receipt.ReimbursementAmount;
+                }
+
                 Request request = new Request()
                 {
                     ApplicationUser = currentUser,
                     CreatedDate = newRequestViewModel.CreatedDate,
                     Receipts = newRequestViewModel.Receipts,
                     StatusId = newRequestViewModel.StatusId,
-                };
+                    Total =  total
+                };              
+
                 _context.Requests.Add(request);
-                foreach (var receipt in request.Receipts)
-                {
-                    _context.Receipts.Add(receipt);
-                }                
             }
 
             _context.SaveChanges();
@@ -95,6 +105,7 @@ namespace ExpenseLink.Controllers
                 viewModel.StatusName = request.Status.Name;
                 viewModel.RequesterName = request.ApplicationUser.Name;
                 viewModel.Reason = request.Reason;
+                viewModel.Total = request.Total;
             }
             if (User.IsInRole(RoleName.Manager))            
                 return View("ManagerDetail", viewModel);
