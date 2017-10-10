@@ -33,13 +33,12 @@ namespace ExpenseLink.Controllers
         {
             if (User == null)
             return new HttpUnauthorizedResult();
-                
-            
+                            
             if (User.IsInRole(RoleName.Employee))
             {
                 var currentUserId = _userManager.FindById(User.Identity.GetUserId()).Id;
                 var requests = _context.Requests.Include(r => r.Status).Where(r => r.ApplicationUser.Id == currentUserId).ToList();
-                return View(requests);
+                return View("Index", requests);
             }
 
             if (User.IsInRole(RoleName.Manager))

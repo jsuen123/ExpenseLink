@@ -5,7 +5,7 @@
 }
 
 <h2>New Expense</h2>
-<button id="btnAddField">Add Field</button>
+<button id="btnAddRow" class="btn btn-primary btn-group-sm">Add Row</button>
 @using (Html.BeginForm("Create", "Request"))
 {
 
@@ -25,7 +25,7 @@
                     @Html.ValidationMessageFor(m => m.Receipts[i].ReceiptNo)
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Receipts[i].ReceiptDate)  
+                    @Html.TextBoxFor(m => m.Receipts[i].ReceiptDate, "dd/MM/yyyy", new {@placeholder="dd/mm/yyyy"})  
                     @Html.ValidationMessageFor(m => m.Receipts[i].ReceiptDate)
                 </td>
                 <td>
@@ -40,7 +40,7 @@
                     @Html.TextBoxFor(m => m.Receipts[i].ReimbursementAmount)
                     @Html.ValidationMessageFor(m => m.Receipts[i].ReimbursementAmount)
                 </td>
-                    <a href="javascript:void(0);" class="remRow">Remove</a>            
+                    @*<a href="javascript:void(0);" class="remRow">Remove</a>*@            
             }           
 
         </tr>
@@ -55,11 +55,11 @@
 
     $(document).ready(function() {
         var $table = $('#table');
-        $('#btnAddField').click(function(e) {
+        $('#btnAddRow').click(function(e) {
             e.preventDefault();
             var rowCount = $('#table > tbody > tr').length-2;
             $('<tr><td><input type="text" name="Receipts[' + rowCount + '].ReceiptNo" /></td>' +
-                '<td><input type="text" name="Receipts[' + rowCount + '].ReceiptDate" /></td>' +
+                '<td><input type="date" name="Receipts[' + rowCount + '].ReceiptDate" placeholder="mm/dd/yyyy" /></td>' +
                 '<td><input type="text" name="Receipts[' + rowCount + '].ItemDescription" /></td>' +
                 '<td><input type="text" name="Receipts[' + rowCount + '].Amount" /></td>' +
                 '<td><input type="text" name="Receipts[' + rowCount + '].ReimbursementAmount" /></td>' +
