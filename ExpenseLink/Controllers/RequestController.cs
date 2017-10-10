@@ -4,16 +4,19 @@ using System.Linq;
 using System.Web.Mvc;
 using ExpenseLink.Models;
 using ExpenseLink.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ExpenseLink.Controllers
 {
     public class RequestController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly UserManager<ApplicationUser> _userManager;
         public RequestController()
         {
             _context = new ApplicationDbContext();
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
         }
 
         protected override void Dispose(bool disposing)
@@ -27,14 +30,35 @@ namespace ExpenseLink.Controllers
             return View(requests);
         }
 
-        public ActionResult New()
+        public ActionResult New(NewRequestViewModel newRequestViewModel)
         {
-            return View();
+            ApplicationUser currentUser = _userManager.FindById(User.Identity.GetUserId());
+            newRequestViewModel.Requester = currentUser.Name;
+            return View(newRequestViewModel);
         }
 
-        public ActionResult Create(Receipt[] receipt)
+        public ActionResult Create(NewRequestViewModel newRequestViewModel)
         {
-            throw new System.NotImplementedException();
+            ApplicationUser currentUser = _userManager.FindById(User.Identity.GetUserId());
+            if (currentUser != null)
+            {
+                Request request = new Request()
+                {
+                    ApplicationUser = currentUser,
+                    CreatedDate = newRequestViewModel.CreatedDate,
+                    Receipts = newRequestViewModel.Receipts,
+                    StatusId = newRequestViewModel.StatusId,
+                };
+                _context.Requests.Add(request);
+                foreach (var receipt in request.Receipts)
+                {
+                    _context.Receipts.Add(receipt);
+                }                
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Request");
         }
 
         public ActionResult Detail(int id)

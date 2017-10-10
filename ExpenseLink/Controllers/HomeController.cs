@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ExpenseLink.Models;
 
 namespace ExpenseLink.Controllers
 {
@@ -10,7 +11,24 @@ namespace ExpenseLink.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var usr = new User();
+            usr.Name = "Jon Skeet";
+            usr.Interests = GetUserInterests();
+            return View(usr);
+        }
+
+        private IList<UserInterest> GetUserInterests()
+        {
+            List<UserInterest> userInterests = new List<UserInterest>();
+
+            UserInterest userInterest = new UserInterest
+            {
+                Id = 1,
+                InterestText = "Basketball",
+                IsExperienced = true
+            };
+            userInterests.Add(userInterest);
+            return userInterests;
         }
 
         public ActionResult About()

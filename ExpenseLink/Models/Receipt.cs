@@ -11,6 +11,8 @@ namespace ExpenseLink.Models
         [Required]
         public int Id { get; set; }
         [Required]
+        public int ReceiptNo { get; set; }
+        [Required]
         public DateTime ReceiptDate { get; set; }
         public string ItemDescription { get; set; }
         [Required]

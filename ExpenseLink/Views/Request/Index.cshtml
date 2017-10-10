@@ -18,6 +18,7 @@ else
 {
     <table class="table	table-bordered	table-hover">
         <tr>
+            <th>Request Id</th>
             <th>Requester</th>
             <th>Date</th>
             <th>Status</th>
@@ -27,7 +28,10 @@ else
         {
             <tr>
                 <td>
-                    @Html.ActionLink(request.ApplicationUser.Name, "Detail", "Request", new { id = request.Id }, null)
+                    @Html.ActionLink(request.Id.ToString(), "Detail", "Request", new { id = request.Id }, null)
+                </td>
+                <td>
+                    @request.ApplicationUser.Name
                 </td>
                 <td>
                     @request.CreatedDate.ToString("d/MMM/yyyy")

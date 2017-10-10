@@ -1,4 +1,4 @@
-﻿@model ExpenseLink.Models.Request
+﻿@model ExpenseLink.ViewModels.NewRequestViewModel
 @{
     ViewBag.Title = "New";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,33 +14,42 @@
 
     <table id="table" class="table	table-bordered	table-hover">
         <tr>
+            <th>Receipt Number</th>
             <th>Receipt Date</th>
             <th>Item Description</th>
             <th>Amount</th>
             <th>Reimbursement Amount</th>
         </tr>        
-        <tr>
-            <td>
-                @Html.EditorFor(m=>m.Receipts)
-                <input type="text" name="receipt.ReceiptDate"/><br/>
-            </td>
-            <td>
-                <input type="text" name="receipt.ItemDescription" /><br />
-            </td>
-            <td>
-                <input type="text" name="receipt.Amount" /><br />
-            </td>
-            <td>
-                <input type="text" name="receipt.ReimbursementAmount" /><br />
-            </td>
+        <tr>                        
+            @for (int i = 0; i < Model.Receipts.Count(); i++)
+            {
+                <td> 
+                    @Html.TextBoxFor(model => Model.Receipts[i].ReceiptNo)            
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model.Receipts[i].ReceiptDate)  
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model.Receipts[i].ItemDescription)  
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model.Receipts[i].Amount)  
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => Model.Receipts[i].ReimbursementAmount)
+                </td>
+
+                    <a href="javascript:void(0);" class="remRow">Remove</a>
+               
+            }           
+
         </tr>
     </table>
 
     @Html.AntiForgeryToken()
-    <button>Submit</button>
+    @Html.HiddenFor(m=>m.Requester)
+    <input type="submit" value="submit" class="btn btn-success btn-lg" />
 }
-
-<div style="color:blue"><b>Data:</b> @ViewBag.Data</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -48,10 +57,13 @@
         var $table = $('#table');
         $('#btnAddField').click(function(e) {
             e.preventDefault();
-            $('<tr><td><input type="text" name="receipt.ReceiptDate" /></td>' +
-                '<td><input type="text" name="receipt.ItemDescription" /></td>' +
-                '<td><input type="text" name="receipt.Amount" /></td>' +
-                '<td><input type="text" name="receipt.ReimbursementAmount" /></td></tr>').appendTo($table);
+            var rowCount = $('#table > tbody > tr').length-2;
+            $('<tr><td><input type="text" name="Receipts[' + rowCount + '].ReceiptNo" /></td>' +
+                '<td><input type="text" name="Receipts[' + rowCount + '].ReceiptDate" /></td>' +
+                '<td><input type="text" name="Receipts[' + rowCount + '].ItemDescription" /></td>' +
+                '<td><input type="text" name="Receipts[' + rowCount + '].Amount" /></td>' +
+                '<td><input type="text" name="Receipts[' + rowCount + '].ReimbursementAmount" /></td>' +
+                '</tr>').appendTo($table);
         });
     });
 
