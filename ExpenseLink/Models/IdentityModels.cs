@@ -31,7 +31,7 @@ namespace ExpenseLink.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public DbSet<Request> Requests { get; set; }
         public DbSet<Receipt> Receipts { get; set; }

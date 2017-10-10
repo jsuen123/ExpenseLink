@@ -17,9 +17,9 @@ namespace ExpenseLink.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
-        public RequestController(IEmailService emailService)
+        public RequestController()
         {
-            _emailService = emailService;
+            _emailService = new Services.EmailService();
             _context = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
         }
@@ -31,6 +31,10 @@ namespace ExpenseLink.Controllers
 
         public ActionResult Index()
         {
+            if (User == null)
+            return new HttpUnauthorizedResult();
+                
+            
             if (User.IsInRole(RoleName.Employee))
             {
                 var currentUserId = _userManager.FindById(User.Identity.GetUserId()).Id;
