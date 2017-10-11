@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
@@ -18,10 +19,13 @@ namespace ExpenseLink.Tests.Controllers
     public class RequestControllerTest
     {
         [TestMethod]
-        public void Index_WhenNotLoggedIn_ShouldReturnNull()
+        public void Index_WhenNotLoggedIn_ShouldReturnTypeHttpUnauthorizedResult()
         {
             //Arrange
-            RequestController requestController = new RequestController();
+            var userManagerMock = new Mock<IUserStore<ApplicationUser>>(MockBehavior.Strict);
+            RequestController requestController = new RequestController(new Mock<ApplicationDbContext>().Object,
+                new UserManager<ApplicationUser>(userManagerMock.Object),
+                new Mock<IEmailService>().Object);
 
             //Act
             var result = requestController.Index();
@@ -33,15 +37,65 @@ namespace ExpenseLink.Tests.Controllers
         [TestMethod]
         public void Index_WhenEmployeeUser_ShouldReturnViewl()
         {
+            const string roleName = RoleName.Employee;
             //Arrange
-            var mockContext = new Mock<ControllerContext>();
-            mockContext.SetupGet(m => m.HttpContext.User.Identity.Name).Returns("someuser");
-            mockContext.SetupGet(m => m.HttpContext.User.Identity.GetUserId()).Returns("someuserId");
-            mockContext.SetupGet(m => m.HttpContext.Request.IsAuthenticated).Returns(true);
-            mockContext.SetupGet(m => m.HttpContext.User);
-            RequestController requestController = new RequestController();
-            //requestController.ControllerContext = mockContext.Object;
-            //requestController.
+            var userManagerMock = new Mock<IUserStore<ApplicationUser>>(MockBehavior.Strict);
+            userManagerMock.As<IUserPasswordStore<ApplicationUser>>()
+                        .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
+                        .ReturnsAsync(new ApplicationUser() { Id = "id" });
+            var identity = new GenericIdentity(roleName, "");
+            var nameIdentifierClaim = new Claim(ClaimTypes.NameIdentifier, roleName);
+            identity.AddClaim(nameIdentifierClaim);
+
+            var mockPrincipal = new Mock<IPrincipal>();
+            mockPrincipal.Setup(x => x.Identity).Returns(identity);
+            //mockPrincipal.SetupGet(x => x.Identity.GetUserId()).Returns(It.IsAny<string>());
+
+            mockPrincipal.Setup(x => x.IsInRole(roleName)).Returns(true);
+
+            var mockContext = new Mock<HttpContextBase>();
+            mockContext.SetupGet(c => c.User).Returns(mockPrincipal.Object);
+
+            var mockControllerContext = new Mock<ControllerContext>();
+            mockControllerContext.SetupGet(c => c.HttpContext)
+                .Returns(mockContext.Object);
+
+
+            //In memory database
+           // var dbContextOptionsBuilder = new DbContextOptionsBuilder
+
+
+
+            Mock<ApplicationDbContext> mockApplicationDbContext = new Mock<ApplicationDbContext>();
+
+            var requestTestData = new List<Request>()
+            {
+                new Request()
+                {
+                    Id = 1,
+                    ApplicationUser = new ApplicationUser(),
+                    CreatedDate = DateTime.Now,
+                    Receipts = new List<Receipt>(
+                        new List<Receipt>()
+                        {
+                            new Receipt() {Id = 1, Amount = 100, ItemDescription = "some item", ReceiptDate = DateTime.Now, ReimbursementAmount = 100, ReceiptNo = 123},
+                            new Receipt() {Id = 2, Amount = 100, ItemDescription = "some item", ReceiptDate = DateTime.Now, ReimbursementAmount = 100, ReceiptNo = 124}
+                        }),
+                    Status = new Status() {Id = 1, Name = "Submitted"},
+                    StatusId = 1,
+                    Total = 200                    
+                }
+            };
+
+            var requests = new Mock<DbSet<Request>>(requestTestData);
+
+            mockApplicationDbContext.Setup(m => m.Requests).Returns(requests.Object);
+
+            RequestController requestController = new RequestController(new Mock<ApplicationDbContext>().Object,
+                                                                        new UserManager<ApplicationUser>(userManagerMock.Object), 
+                                                                        new Mock<IEmailService>().Object);
+
+            requestController.ControllerContext = mockControllerContext.Object;
             //Act
             var result = requestController.Index();
 

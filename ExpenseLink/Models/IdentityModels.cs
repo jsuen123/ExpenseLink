@@ -23,7 +23,7 @@ namespace ExpenseLink.Models
 
         public static string GetName(System.Security.Principal.IPrincipal usr)
         {
-            var fullNameClaim = ((ClaimsIdentity)usr.Identity).FindFirst("FullName");
+            var fullNameClaim = ((ClaimsIdentity)usr.Identity).FindFirst("Name");
             if (fullNameClaim != null)
                 return fullNameClaim.Value;
 

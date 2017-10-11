@@ -2,12 +2,15 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 using ExpenseLink.Models;
 using ExpenseLink.Services;
 using ExpenseLink.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace ExpenseLink.Controllers
 {
@@ -17,11 +20,21 @@ namespace ExpenseLink.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
+
         public RequestController()
         {
             _emailService = new Services.EmailService();
             _context = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+           
+            //_currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+        }
+
+        public RequestController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailService emailService)
+        {
+            _context = context;
+            _userManager = userManager;
+            _emailService = emailService;
         }
 
         protected override void Dispose(bool disposing)
@@ -36,7 +49,7 @@ namespace ExpenseLink.Controllers
                             
             if (User.IsInRole(RoleName.Employee))
             {
-                var currentUserId = _userManager.FindById(User.Identity.GetUserId()).Id;
+                var currentUserId = User.Identity.GetUserId();// _userManager.FindById(User.Identity.GetUserId()).Id;
                 var requests = _context.Requests.Include(r => r.Status).Where(r => r.ApplicationUser.Id == currentUserId).ToList();
                 return View("Index", requests);
             }
@@ -58,8 +71,9 @@ namespace ExpenseLink.Controllers
 
         public ActionResult New(NewRequestViewModel newRequestViewModel)
         {
-            ApplicationUser currentUser = _userManager.FindById(User.Identity.GetUserId());
-            newRequestViewModel.Requester = currentUser.Name;
+            // ApplicationUser currentUser = User.Identity.Name// _userManager.FindById(User.Identity.GetUserId());
+            var currentUserFullName = ((ClaimsIdentity) User.Identity).FindFirst("Name");
+            newRequestViewModel.Requester = currentUserFullName.Value;
             return View(newRequestViewModel);
         }
 
