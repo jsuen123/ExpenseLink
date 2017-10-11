@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
-using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using ExpenseLink.Models;
@@ -26,7 +25,6 @@ namespace ExpenseLink.Controllers
             _emailService = new Services.EmailService();
             _context = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
-           
             //_currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
         }
 
@@ -49,7 +47,7 @@ namespace ExpenseLink.Controllers
                             
             if (User.IsInRole(RoleName.Employee))
             {
-                var currentUserId = User.Identity.GetUserId();// _userManager.FindById(User.Identity.GetUserId()).Id;
+                var currentUserId = _userManager.FindById(User.Identity.GetUserId()).Id;
                 var requests = _context.Requests.Include(r => r.Status).Where(r => r.ApplicationUser.Id == currentUserId).ToList();
                 return View("Index", requests);
             }
@@ -71,9 +69,8 @@ namespace ExpenseLink.Controllers
 
         public ActionResult New(NewRequestViewModel newRequestViewModel)
         {
-            // ApplicationUser currentUser = User.Identity.Name// _userManager.FindById(User.Identity.GetUserId());
-            var currentUserFullName = ((ClaimsIdentity) User.Identity).FindFirst("Name");
-            newRequestViewModel.Requester = currentUserFullName.Value;
+            ApplicationUser currentUser = _userManager.FindById(User.Identity.GetUserId());
+            newRequestViewModel.Requester = currentUser.Name;
             return View(newRequestViewModel);
         }
 
