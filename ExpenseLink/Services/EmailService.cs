@@ -6,12 +6,12 @@ namespace ExpenseLink.Services
     {
         public EmailService()
         {
-                
+            //Todo: Implement email service
         }
 
         public void Send(MailMessage mailMessage)
         {
-
+            //Todo: Implement email service
         }
     }
 }

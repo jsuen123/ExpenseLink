@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ExpenseLink.Models;
 
 namespace ExpenseLink.Controllers
@@ -16,6 +14,7 @@ namespace ExpenseLink.Controllers
         // GET: Reporting
         public ActionResult Index(string sortOrder)
         {
+            //Todo: Implement reporting page
             return View();
         }
     }
