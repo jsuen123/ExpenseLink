@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using ExpenseLink.Models;
+﻿using System.Web.Mvc;
 
 namespace ExpenseLink.Controllers
 {
@@ -8,34 +6,6 @@ namespace ExpenseLink.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        private IList<UserInterest> GetUserInterests()
-        {
-            List<UserInterest> userInterests = new List<UserInterest>();
-
-            UserInterest userInterest = new UserInterest
-            {
-                Id = 1,
-                InterestText = "Basketball",
-                IsExperienced = true
-            };
-            userInterests.Add(userInterest);
-            return userInterests;
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
